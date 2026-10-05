@@ -1,5 +1,5 @@
-# raven-fhir-server
-FHIR server component of Raven platform.
+# mdi-fhir-server
+FHIR server component of MDI platform.
 ## Prerequisite
 * fhirbase (postgresql) with FHIR-R4 database.
 * docker (for docker installation).
@@ -58,12 +58,12 @@ rt || '_history', '"' || rt || '"', rt || '_history', '"' || rt || '"', '"' || r
 
 Your database is ready for the FHIR server. Other postgresql tools can be used to manage the database.
 
-## Raven FHIR Server Installation
-Raven FHIR server can be downloaded from github repo and built as a FHIR server. Do the following to clone the java application from github. 
+## MDI FHIR Server Installation
+MDI FHIR server can be downloaded from github repo and built as a FHIR server. Do the following to clone the java application from github. 
 ```
-git clone --recurse https://github.com/MortalityReporting/raven-fhir-server.git
+git clone --recurse https://github.com/MortalityReporting/mdi-fhir-server.git
 ```
-After cloning the project, you can go into the raven-fhir-server folder and modify envrionment variables in the env.list file. See the env.list file. Please note that either AUTH_BEARER or AUTH_BASIC is needed. 
+After cloning the project, you can go into the mdi-fhir-server folder and modify envrionment variables in the env.list file. See the env.list file. Please note that either AUTH_BEARER or AUTH_BASIC is needed. 
 
 Set up docker network if you haven't done so. You need to use the same network for all the containers that you want to connect to each other.
 ```
@@ -72,8 +72,8 @@ sudo docker network create <your_network>
 
 Now, you are ready to build and run the container. The docker network should have the database container unless external database is running.
 ```
-sudo docker build -t raven-fhir-server .
-sudo docker run -d --restart unless-stopped --publish 8080:8080 --network <your_network> --env-file ./env.list raven-fhir-server
+sudo docker build -t ndi-fhir-server .
+sudo docker run -d --restart unless-stopped --publish 8080:8080 --network <your_network> --env-file ./env.list mdi-fhir-server
 ```
 
 If you did not change the docker file, then your URL will be 
@@ -84,34 +84,34 @@ If you did not change the docker file, then your URL will be
 ## APIs supported
 1. To get all decedents (patients)<br/>
 ```
-GET https://host-url:port/raven-fhir-server/fhir/Patient
+GET https://host-url:port/mdi-fhir-server/fhir/Patient
 ```
 2. To search (decedent) patient by case number
 ```
-GET https://host-url:port/raven-fhir-server/fhir/Patient?identifier=<cms-system>|<case_number>
+GET https://host-url:port/mdi-fhir-server/fhir/Patient?identifier=<cms-system>|<case_number>
 ```
 3. To fetch decedent (patient) records
 ```
-GET https://host-url:port/raven-fhir-server/fhir/Patient/<patient_id>/$everything
+GET https://host-url:port/mdi-fhir-server/fhir/Patient/<patient_id>/$everything
 note: <patient_id> can be obtained from (2)
 ```
 4. To search Composition by patient's identifier
 ```
-GET https://host-url:port/raven-fhir-server/fhir/Composition?patient.identifier=<cms-system>|<case_number>
+GET https://host-url:port/mdi-fhir-server/fhir/Composition?patient.identifier=<cms-system>|<case_number>
 ```
 5. To push batch decedent records
 ```
-POST https://host-url:port/raven-fhir-server/fhir/
+POST https://host-url:port/mdi-fhir-server/fhir/
 note: payload must have a bundle with type.code = batch
 ```
 6. To store VRDR document
 ```
-POST https://host-url:port/raven-fhir-server/fhir/
+POST https://host-url:port/mdi-fhir-server/fhir/
 note: payload must have a bundle in VRDR Death Certificate Document
 ```
 7. To fetch VRDR document
 ```
-GET https://host-url:port/raven-fhir-server/fhir/Composition/<composition_id>/$document
+GET https://host-url:port/mdi-fhir-server/fhir/Composition/<composition_id>/$document
 ```
 8. any FHIR CRUDs for supported resources.
 
