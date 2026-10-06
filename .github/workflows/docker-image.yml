@@ -15,7 +15,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: MortalityReporting/mdi-fhir-server
+  IMAGE_NAME: ${{ github.repository }}
 
 
 jobs:
